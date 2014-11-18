@@ -16,6 +16,12 @@ class Player {
 		string name;
 		string response;
 		int hoursPlayed;
+		
+		int HP;
+		int strength;
+		int defense;
+		int speed;
+		int luck;
 
 		position pos;
 
@@ -23,9 +29,15 @@ class Player {
 			name = "";
 			response = "";
 			hoursPlayed = 0;
+			HP = 100;
+			strength = defense = speed = luck = 5;
 
 			pos.x = 1;
 			pos.y = 1;
+		}
+
+		int attack() {
+			return 0;
 		}
 };
 
@@ -66,14 +78,13 @@ class WorldMap {
 				while(!validInput) {
 					validInput = (find(compass, compass+6, p1.response)) != compass+6;
 					if(!validInput) {
-						cout << "Where to? (north, west, south, east)" << endl;
+						cout << "Wait, where? (north, west, south, east)" << endl;
 						cin >> p1.response;
 					}
 				}
 			
 				position& pos = p1.pos;
-				cout << "(position: " << pos.x << ", " << pos.y << ")" << endl << endl;
-				if((p1.response).compare("north")) {
+				if(!(p1.response).compare("north")) {
 					validInput = checkBounds(pos.x, pos.y + 1);
 					if(validInput) {
 						worldmap[pos.x + pos.y*width] = '0';
@@ -83,7 +94,7 @@ class WorldMap {
 					} else {
 						cout << "Can't go any further north!" << endl;
 					}
-				} else if((p1.response).compare("south")) {
+				} else if(!(p1.response).compare("south")) {
 					validInput = checkBounds(pos.x, pos.y - 1);
 					if(validInput) {
 						worldmap[pos.x + pos.y*width] = '0';
@@ -93,7 +104,7 @@ class WorldMap {
 					} else {
 						cout << "Can't go any further south!" << endl;
 					}
-				} else if((p1.response).compare("west")) {
+				} else if(!(p1.response).compare("west")) {
 					validInput = checkBounds(pos.x - 1, pos.y);
 					if(validInput) {
 						worldmap[pos.x + pos.y*width] = '0';
@@ -103,7 +114,7 @@ class WorldMap {
 					} else {
 						cout << "Can't go any further west!" << endl;
 					}
-				} else if((p1.response).compare("east")) {
+				} else if(!(p1.response).compare("east")) {
 					validInput = checkBounds(pos.x + 1, pos.y);
 					if(validInput) {
 						worldmap[pos.x + pos.y*width] = '0';
@@ -120,12 +131,33 @@ class WorldMap {
 
 			cout << "(position: " << p1.pos.x << ", " << p1.pos.y << ")" << endl << endl;
 		}
+
 };
+
+void Battle() {
+}
+
+void randomBattle() {
+	int chance = rand() % 100 + 1;
+	if(chance > 60) {
+		cout << "Crap, it's the thugs from before!" << endl;
+		Battle();
+	} else {
+		cout << "Ok Good, I don't see any of those guys here either." << endl;
+	}
+}
+
+void help() {
+	cout << "Use the Folling commands:" << endl;
+	cout << "move - to move around in the world map." << endl;
+	cout << "quit - to quit the game. All progress will be lost." << endl;
+}
 
 int main() {
 	// Init
 	WorldMap map = WorldMap();
 	Player player1 = Player();
+	bool gameOver = false;
 
 	// Game Start
 	// cout << "Welcome to Rapture." << endl;
@@ -159,8 +191,25 @@ int main() {
 	// usleep(1500000);
 	// cout << "He lives at 4 east, and 4 north." << endl;
 	cout << "(position: " << player1.pos.x << ", " << player1.pos.y << ")" << endl << endl;
+	help();
 
-	map.moveAround(player1);
+	while (!gameOver) {
+		cout << "You: ";
+		cin >> player1.response;
+		if(!(player1.response).compare("help")) {
+			help();
+		} else if(!(player1.response).compare("move")) {
+			map.moveAround(player1);
+			randomBattle();
+		} else if(!(player1.response).compare("quit")) {
+			cout << "Are you sure you want to quit? (yes/no)" << endl;
+			cin >> player1.response;
+			if(!(player1.response).compare("yes")) {
+				exit(0);
+			}
+		}
+
+	}
 
 	// cout << player1.response;
 	
