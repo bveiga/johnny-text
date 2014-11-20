@@ -2,12 +2,15 @@
 #define ADV_H
 
 #include <iostream>
+#include <stdlib.h>
 #include <unistd.h>
+#include <algorithm>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-string compass [5] = {"north", "west", "south", "east", "stay"};
+vector<string> compass = {"north", "west", "south", "east", "stay"};
 
 struct position {
 	int x;
@@ -83,13 +86,13 @@ class WorldMap {
 			bool worked = false;
 
 			while(!worked) {
-				cout << "Where to? (north, west, south, east)" << endl;
+				cout << "Where to? (north, west, south, east, stay)" << endl;
 				getline(cin, p1.response);
 
 				while(!validInput) {
-					validInput = (find(compass, compass+6, p1.response)) != compass+6;
+					validInput = (find(compass.begin(), compass.end(), p1.response)) != compass.end();
 					if(!validInput) {
-						cout << "Wait, where? (north, west, south, east)" << endl;
+						cout << "Wait, where? (north, west, south, east, stay)" << endl;
 						getline(cin, p1.response);
 					}
 				}
