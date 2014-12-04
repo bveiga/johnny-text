@@ -17,12 +17,17 @@ struct position {
 	int y;
 };
 
-// struct Enemy {
-// 	int HP;
-// 	int strength;
-// 	int defense;
-// 	int speed;
-// };
+struct enemy {
+	int HP;
+	int strength;
+	int defense;
+	int speed;
+
+	void print() {
+		printf("HP: %d\n strength: %d\n defense: %d\n speed: %d\n", HP, strength, defense, speed);
+	}
+};
+vector<enemy> enemies;
 
 class Player {
 	public:

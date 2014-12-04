@@ -6,6 +6,27 @@ using namespace std;
 // 	cout << "Playing the song..." << endl;
 // }
 
+void enemyInit() {
+	// create enemies
+	enemy enemy;
+	for(int i=0; i<10; ++i) {
+		enemy.HP = 12 + (rand() % (int)(20 - 1));
+		enemy.strength = 5 + (rand() % (int)(8 - 1));
+		enemy.defense = 5 + (rand() % (int)(8 - 1));
+		enemy.speed = 5 + (rand() % (int)(8 - 1));
+		enemies.push_back(enemy);
+	}
+
+	int size = enemies.size();
+	for (int i = 0; i < size; ++i) {
+		enemy = enemies.at(i);
+		enemy.print();
+	}
+}
+
+void init() {
+}
+
 void Battle() {
 
 }
@@ -30,7 +51,12 @@ int main() {
 	// Init
 	WorldMap map = WorldMap();
 	Player player1 = Player();
+	enemyInit();
 	bool gameOver = false;
+
+	// Initializers
+	enemyInit();
+	return 0;
 
 	// Game Start
 	cout << "Welcome to Rapture." << endl;
