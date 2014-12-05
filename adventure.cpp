@@ -8,7 +8,7 @@ using namespace std;
 
 void enemyInit() {
 	// create enemies
-	enemy enemy;
+	Enemy enemy;
 	for(int i=0; i<10; ++i) {
 		enemy.HP = 12 + (rand() % (int)(20 - 1));
 		enemy.strength = 5 + (rand() % (int)(8 - 1));
@@ -17,32 +17,67 @@ void enemyInit() {
 		enemies.push_back(enemy);
 	}
 
-	int size = enemies.size();
-	for (int i = 0; i < size; ++i) {
-		enemy = enemies.at(i);
-		enemy.print();
-	}
+	// int size = enemies.size();
+	// for (int i = 0; i < size; ++i) {
+	// 	enemy = enemies.at(i);
+	// 	enemy.print();
+	// }
 }
 
 void init() {
 }
 
-void Battle() {
+void Battle(Player& p, Enemy e) {
+	bool validInput = false;
+	int escapeChance = 0;
+	
+	cout << "What do you wanna do?" << endl;
+	while(p.HP > 0 && e.HP > 0) {
+		// Player Turn
+		cout << "(attack, defend, escape)" << endl;
+		getline(cin, p.response);
 
+		while(!validInput) {
+			validInput = (find(battleCommands.begin(), battleCommands.end(), p.response)) != battleCommands.end();
+			if(!validInput) {
+				cout << "Wait, what? (attack, defend, escape)" << endl;
+				getline(cin, p.response);
+			}
+		}
+
+		if(!(p.response).compare("attack")) {
+			break;
+		} else if (!(p.response).compare("defend")) {
+			break;
+		} else if (!(p.response).compare("escape")) {
+			escapeChance = rand() % 100;
+			if(escapeChance > 60) {
+				cout << "We got away!" << endl;
+				break;
+			} else {
+				cout << "Nope! Couldn't run away!" << endl;
+			}
+		}
+
+		// Enemy Turn
+	}
 }
 
-void randomBattle() {
+void randomBattle(Player& p1) {
 	int chance = rand() % 100 + 1;
 	if(chance > 60) {
 		cout << "Crap, it's the thugs from before!" << endl;
-		Battle();
+		int index = rand() % 9;
+		cout << index << endl;
+
+		Battle(p1, enemies[index]);
 	} else {
 		cout << "Ok Good, I don't see any of those guys here either." << endl;
 	}
 }
 
 void help() {
-	cout << "Use the Folling commands:" << endl;
+	cout << "Use the Following commands:" << endl;
 	cout << "move - to move around in the world map." << endl;
 	cout << "quit - to quit the game. All progress will be lost." << endl;
 }
@@ -51,12 +86,10 @@ int main() {
 	// Init
 	WorldMap map = WorldMap();
 	Player player1 = Player();
-	enemyInit();
 	bool gameOver = false;
 
 	// Initializers
 	enemyInit();
-	return 0;
 
 	// Game Start
 	cout << "Welcome to Rapture." << endl;
@@ -102,7 +135,7 @@ int main() {
 			help();
 		} else if(!(player1.response).compare("move")) {
 			map.moveAround(player1);
-			randomBattle();
+			randomBattle(player1);
 		} else if(!(player1.response).compare("quit")) {
 			cout << "Are you sure you want to quit? (yes/no)" << endl;
 			cout << player1.name << ": ";

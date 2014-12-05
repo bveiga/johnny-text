@@ -11,13 +11,14 @@
 using namespace std;
 
 vector<string> compass = {"north", "west", "south", "east", "stay"};
+vector<string> battleCommands = {"attack", "defend", "escape"};
 
 struct position {
 	int x;
 	int y;
 };
 
-struct enemy {
+struct Enemy {
 	int HP;
 	int strength;
 	int defense;
@@ -27,7 +28,7 @@ struct enemy {
 		printf("HP: %d\n strength: %d\n defense: %d\n speed: %d\n", HP, strength, defense, speed);
 	}
 };
-vector<enemy> enemies;
+vector<Enemy> enemies;
 
 class Player {
 	public:
