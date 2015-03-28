@@ -67,8 +67,8 @@ void randomBattle(Player& p1) {
 	int chance = rand() % 100 + 1;
 	if(chance > 60) {
 		cout << "Crap, it's the thugs from before!" << endl;
-		int index = rand() % 9;
-		cout << index << endl;
+		int index = (rand()* 100) % 9;
+		// cout << index << endl;
 
 		Battle(p1, enemies[index]);
 	} else {
