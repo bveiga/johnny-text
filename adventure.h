@@ -28,6 +28,11 @@ struct Enemy {
 		printf("HP: %d\n strength: %d\n defense: %d\n speed: %d\n", HP, strength, defense, speed);
 	}
 };
+
+struct Matt {
+
+};
+
 vector<Enemy> enemies;
 
 class Player {
